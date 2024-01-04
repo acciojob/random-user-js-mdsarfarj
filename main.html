@@ -15,16 +15,24 @@
   <div>
     <img id="userImage" src="" alt="User Image">
     <h2 id="userName"></h2>
+    <button data-attr="age">Age</button>
+    <button data-attr="email">Email</button>
+    <button data-attr="phone">Phone</button>
+    <button id="getUser">Get User</button>
     <div id="additionalInfo"></div>
-    <button data-attr="age" onclick="showInfo(this)">Age</button>
-    <button data-attr="email" onclick="showInfo(this)">Email</button>
-    <button data-attr="phone" onclick="showInfo(this)">Phone</button>
-    <button id="getUser" onclick="getUser()">Get User</button>
   </div>
 
   <script>
-    function showInfo(button) {
-      const attr = button.getAttribute('data-attr');
+    document.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('button[data-attr]');
+      buttons.forEach(button => {
+        button.addEventListener('click', () => showInfo(button.getAttribute('data-attr')));
+      });
+
+      document.getElementById('getUser').addEventListener('click', getUser);
+    });
+
+    function showInfo(attr) {
       const infoSection = document.getElementById('additionalInfo');
       infoSection.innerHTML = '';
       switch (attr) {
