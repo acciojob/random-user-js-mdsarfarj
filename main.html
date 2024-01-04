@@ -1,16 +1,66 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random User</title>
+  <style>
+    img {
+      max-width: 200px;
+      max-height: 200px;
+    }
+  </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+  <div>
+    <img id="userImage" src="" alt="User Image">
+    <h2 id="userName"></h2>
+    <div id="additionalInfo"></div>
+    <button data-attr="age" onclick="showInfo(this)">Age</button>
+    <button data-attr="email" onclick="showInfo(this)">Email</button>
+    <button data-attr="phone" onclick="showInfo(this)">Phone</button>
+    <button id="getUser" onclick="getUser()">Get User</button>
+  </div>
 
+  <script>
+    function showInfo(button) {
+      const attr = button.getAttribute('data-attr');
+      const infoSection = document.getElementById('additionalInfo');
+      infoSection.innerHTML = '';
+      switch (attr) {
+        case 'age':
+          infoSection.textContent = `Age: ${userData.age}`;
+          break;
+        case 'email':
+          infoSection.textContent = `Email: ${userData.email}`;
+          break;
+        case 'phone':
+          infoSection.textContent = `Phone: ${userData.phone}`;
+          break;
+        default:
+          break;
+      }
+    }
+
+    let userData = {};
+
+    function getUser() {
+      fetch('https://randomuser.me/api/')
+        .then(response => response.json())
+        .then(data => {
+          const user = data.results[0];
+          const fullName = `${user.name.first} ${user.name.last}`;
+          const largeImage = user.picture.large;
+          const age = user.dob.age;
+          const email = user.email;
+          const phone = user.phone;
+
+          document.getElementById('userImage').src = largeImage;
+          document.getElementById('userName').textContent = fullName;
+
+          userData = { age, email, phone };
+        });
+    }
+  </script>
 </body>
-
 </html>
